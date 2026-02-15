@@ -1,0 +1,2245 @@
+<!DOCTYPE html><html lang="en"><head>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>PyroGuard X-8: Revolutionizing Firefighting Robotics</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/js/all.min.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Canela:wght@300;400;700&amp;family=Inter:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet"/>
+    <style>
+        :root {
+            --primary: #2563eb;
+            --secondary: #64748b;
+            --accent: #f59e0b;
+            --neutral: #1f2937;
+            --base-100: #ffffff;
+            --base-200: #f8fafc;
+            --base-300: #e2e8f0;
+        }
+        
+        .font-canela { font-family: 'Canela', serif; }
+        .font-inter { font-family: 'Inter', sans-serif; }
+        
+        .hero-overlay {
+            background: linear-gradient(135deg, rgba(37, 99, 235, 0.15) 0%, rgba(245, 158, 11, 0.1) 100%);
+        }
+        
+        .toc-fixed {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 280px;
+            height: 100vh;
+            background: var(--base-100);
+            border-right: 1px solid var(--base-300);
+            z-index: 40;
+            overflow-y: auto;
+            padding: 2rem 1.5rem;
+        }
+        
+        .main-content {
+            margin-left: 280px;
+            min-height: 100vh;
+        }
+        
+        .section-divider {
+            height: 1px;
+            background: linear-gradient(90deg, transparent 0%, var(--base-300) 50%, transparent 100%);
+            margin: 4rem 0;
+        }
+        
+        @media (max-width: 1024px) {
+            .toc-fixed {
+                transform: translateX(-100%);
+                transition: transform 0.3s ease;
+            }
+            
+            .toc-fixed.mobile-open {
+                transform: translateX(0);
+            }
+            
+            .main-content {
+                margin-left: 0;
+            }
+        }
+        
+        .bento-grid {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            grid-template-rows: auto auto;
+            gap: 2rem;
+            height: 70vh;
+        }
+        
+        .bento-main {
+            grid-row: 1 / -1;
+            position: relative;
+            overflow: hidden;
+            border-radius: 1rem;
+        }
+        
+        .bento-side {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+        }
+        
+        .citation-link {
+            color: var(--primary);
+            text-decoration: none;
+            border-bottom: 1px dotted var(--primary);
+            cursor: pointer;
+        }
+        
+        .citation-link:hover {
+            background-color: rgba(37, 99, 235, 0.1);
+        }
+    </style>
+  <base target="_blank">
+</head>
+
+  <body class="bg-base-100 font-inter text-neutral">
+    <!-- Mobile TOC Toggle -->
+    <button id="tocToggle" class="lg:hidden fixed top-4 left-4 z-50 bg-primary text-white p-3 rounded-full shadow-lg">
+      <i class="fas fa-bars"></i>
+    </button>
+
+    <!-- Table of Contents -->
+    <nav id="toc" class="toc-fixed">
+      <div class="mb-8">
+        <h3 class="font-canela text-xl font-bold text-neutral mb-4">Contents</h3>
+        <div class="space-y-2">
+          <a href="#hero" class="block text-sm text-secondary hover:text-primary transition-colors">Introduction</a>
+          <a href="#problem" class="block text-sm text-secondary hover:text-primary transition-colors">Problem Definition</a>
+          <a href="#architecture" class="block text-sm text-secondary hover:text-primary transition-colors">System Architecture</a>
+          <a href="#engineering" class="block text-sm text-secondary hover:text-primary transition-colors">Engineering Design</a>
+          <a href="#intelligence" class="block text-sm text-secondary hover:text-primary transition-colors">Intelligence &amp; Autonomy</a>
+          <a href="#validation" class="block text-sm text-secondary hover:text-primary transition-colors">Performance Validation</a>
+          <a href="#roadmap" class="block text-sm text-secondary hover:text-primary transition-colors">Development Roadmap</a>
+          <a href="#specs" class="block text-sm text-secondary hover:text-primary transition-colors">Technical Specifications</a>
+        </div>
+      </div>
+
+      <div class="border-t pt-4">
+        <h4 class="font-semibold text-sm text-neutral mb-2">Key Metrics</h4>
+        <div class="space-y-2 text-xs text-secondary">
+          <div>800°C External Operation</div>
+          <div>
+            &lt;60°C Internal</div>
+              <div>4+ Hours Duration</div>
+              <div>500mm Obstacle Clearance</div>
+          </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="main-content">
+      <!-- Hero Section -->
+      <section id="hero" class="relative">
+        <div class="bento-grid max-w-7xl mx-auto p-6">
+          <!-- Main Hero Panel -->
+          <div class="bento-main bg-gradient-to-br from-slate-50 to-blue-50 relative overflow-hidden">
+            <div class="absolute inset-0 hero-overlay"></div>
+            <div class="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent"></div>
+
+            <img src="https://kimi-web-img.moonshot.cn/img/assets.newatlas.com/0808ab8aa4896c5427e26c18f9ed05b9a5dcfc67" alt="Firefighting robot prototype in testing facility" class="absolute inset-0 w-full h-full object-cover opacity-30" size="large" aspect="wide" style="photo" query="firefighting robot prototype" referrerpolicy="no-referrer" data-modified="1" data-score="0.00"/>
+
+            <div class="relative z-10 p-8 h-full flex flex-col justify-center">
+              <div class="max-w-2xl">
+                <h1 class="font-canela text-4xl sm:text-5xl lg:text-6xl font-bold text-neutral mb-6 leading-tight">
+                  <span class="italic text-primary">PyroGuard X-8:</span>
+                  <br/>
+                  Revolutionizing Firefighting Robotics
+                </h1>
+                <p class="text-base sm:text-xl text-secondary leading-relaxed mb-8">
+                  The first autonomous fire extinguisher robot capable of operating in environments where no human can survive, featuring revolutionary dual-shell thermal protection and octo-wheel mobility.
+                </p>
+                <div class="flex flex-wrap gap-4">
+                  <div class="bg-white/90 backdrop-blur px-4 py-3 rounded-lg">
+                    <div class="text-2xl font-bold text-primary">800°C</div>
+                    <div class="text-sm text-secondary">External Operation</div>
+                  </div>
+                  <div class="bg-white/90 backdrop-blur px-4 py-3 rounded-lg">
+                    <div class="text-2xl font-bold text-primary">4+ hours</div>
+                    <div class="text-sm text-secondary">Continuous Operation</div>
+                  </div>
+                  <div class="bg-white/90 backdrop-blur px-4 py-3 rounded-lg">
+                    <div class="text-2xl font-bold text-primary">500mm</div>
+                    <div class="text-sm text-secondary">Obstacle Clearance</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Side Panels -->
+          <div class="bento-side">
+            <div class="bg-amber-50 p-6 rounded-lg flex-1">
+              <h3 class="font-canela text-xl font-bold mb-3">Innovation Spotlight</h3>
+              <p class="text-sm text-secondary mb-4">
+                Dual-shell thermal protection with active water cooling enables operation in environments up to 800°C while maintaining internal temperatures below 60°C.
+              </p>
+              <div class="text-xs text-accent font-medium">Core Technology Breakthrough</div>
+            </div>
+
+            <div class="bg-blue-50 p-6 rounded-lg flex-1">
+              <h3 class="font-canela text-xl font-bold mb-3">Market Impact</h3>
+              <p class="text-sm text-secondary mb-4">
+                Addresses $300B annual global fire damage while reducing firefighter fatalities and enabling 15-30% insurance premium reductions.
+              </p>
+              <div class="text-xs text-primary font-medium">Transformative Value Proposition</div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Problem Definition -->
+      <section id="problem" class="max-w-7xl mx-auto px-6 py-16">
+        <div class="mb-12">
+          <h2 class="font-canela text-4xl font-bold text-neutral mb-6">Problem Definition &amp; Market Opportunity</h2>
+          <p class="text-xl text-secondary leading-relaxed max-w-4xl">
+            The contemporary landscape of emergency response reveals a persistent capability gap that places human firefighters at unacceptable risk when confronting fires in environments that fundamentally resist human entry.
+          </p>
+        </div>
+
+        <!-- Human Firefighter Limitations -->
+        <div class="grid lg:grid-cols-2 gap-12 mb-16">
+          <div>
+            <h3 class="font-canela text-2xl font-bold mb-6 text-neutral">Human Firefighter Limitations</h3>
+            <div class="space-y-6">
+              <div class="border-l-4 border-primary pl-6">
+                <h4 class="font-semibold text-lg mb-2">Physiological Constraints</h4>
+                <p class="text-secondary mb-3">
+                  Thermal tolerance thresholds not exceeding <strong>60°C for sustained exposure</strong>, respiratory protection limited to 30-60 minutes, and sensory degradation in smoke-obscured environments.
+                </p>
+                <p class="text-sm text-secondary">
+                  Firefighters are often exposed to higher risks when extinguishing fire, especially in hazardous environments such as nuclear power plants, petroleum refineries, and gas tanks <a href="https://thesai.org/Downloads/Volume10No1/Paper_18-Development_of_Fire_Fighting_Robot.pdf" class="citation-link">[143]</a>.
+                </p>
+              </div>
+
+              <div class="border-l-4 border-accent pl-6">
+                <h4 class="font-semibold text-lg mb-2">Spatial Limitations</h4>
+                <p class="text-secondary">
+                  Narrow passages below <strong>60 centimeters</strong> preclude entry by firefighters equipped with standard breathing apparatus and protective ensembles.
+                </p>
+              </div>
+
+              <div class="border-l-4 border-secondary pl-6">
+                <h4 class="font-semibold text-lg mb-2">Temporal Constraints</h4>
+                <p class="text-secondary">
+                  Fire growth from ignition to flashover in <strong>3-5 minutes</strong> often exceeds human response time constraints.
+                </p>
+              </div>
+            </div>
+          </div>
+
+          <div>
+            <img src="https://kimi-web-img.moonshot.cn/img/www.lionprotects.com/3b493585e7b89fefd603e1cfcaea73a0508e04b7.png" alt="Firefighter in protective gear approaching industrial fire" class="w-full h-80 object-cover rounded-lg mb-6" size="medium" aspect="wide" style="photo" query="firefighter protective gear industrial fire" referrerpolicy="no-referrer" data-modified="1" data-score="0.00"/>
+
+            <div class="bg-red-50 p-6 rounded-lg">
+              <h4 class="font-semibold text-lg mb-3 text-red-800">Economic Impact</h4>
+              <div class="space-y-2 text-sm">
+                <div class="flex justify-between">
+                  <span>Global fire damage:</span>
+                  <span class="font-semibold">$300B annually</span>
+                </div>
+                <div class="flex justify-between">
+                  <span>Firefighter fatalities (US):</span>
+                  <span class="font-semibold">60-70 annually</span>
+                </div>
+                <div class="flex justify-between">
+                  <span>Insurance premium reduction:</span>
+                  <span class="font-semibold">15-30%</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Target Deployment Scenarios -->
+        <div class="mb-16">
+          <h3 class="font-canela text-2xl font-bold mb-6 text-neutral">Target Deployment Scenarios</h3>
+          <div class="overflow-x-auto">
+            <table class="w-full border-collapse bg-white rounded-lg shadow-sm">
+              <thead class="bg-slate-50">
+                <tr>
+                  <th class="border border-slate-200 px-6 py-4 text-left font-semibold">Scenario</th>
+                  <th class="border border-slate-200 px-6 py-4 text-left font-semibold">Primary Hazards</th>
+                  <th class="border border-slate-200 px-6 py-4 text-left font-semibold">Critical Capabilities</th>
+                </tr>
+              </thead>
+              <tbody class="text-sm">
+                <tr>
+                  <td class="border border-slate-200 px-6 py-4 font-medium">Industrial Facility Fires</td>
+                  <td class="border border-slate-200 px-6 py-4">Extreme radiant heat (&gt;20 kW/m²), explosive atmospheres</td>
+                  <td class="border border-slate-200 px-6 py-4">Dual-shell active cooling; 800°C external operation</td>
+                </tr>
+                <tr class="bg-slate-25">
+                  <td class="border border-slate-200 px-6 py-4 font-medium">Underground/Confined Space</td>
+                  <td class="border border-slate-200 px-6 py-4">Limited egress, oxygen depletion, communication dead zones</td>
+                  <td class="border border-slate-200 px-6 py-4">Compact dimensions; SLAM navigation; ceiling traversal</td>
+                </tr>
+                <tr>
+                  <td class="border border-slate-200 px-6 py-4 font-medium">Nuclear/Chemical Contamination</td>
+                  <td class="border border-slate-200 px-6 py-4">Radiological/chemical exposure, compound hazards</td>
+                  <td class="border border-slate-200 px-6 py-4">Sealed construction; radiation shielding; extended autonomous operation</td>
+                </tr>
+                <tr class="bg-slate-25">
+                  <td class="border border-slate-200 px-6 py-4 font-medium">Structural Collapse</td>
+                  <td class="border border-slate-200 px-6 py-4">Unstable terrain, debris fields, void space navigation</td>
+                  <td class="border border-slate-200 px-6 py-4">Octo-wheel mobility; 500mm+ vertical clearance; orientation-independent operation</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <div class="section-divider"></div>
+      </section>
+
+      <!-- System Architecture -->
+      <section id="architecture" class="max-w-7xl mx-auto px-6 py-16">
+        <div class="mb-12">
+          <h2 class="font-canela text-4xl font-bold text-neutral mb-6">System Architecture &amp; Core Innovation</h2>
+          <p class="text-xl text-secondary leading-relaxed max-w-4xl">
+            The PyroGuard X-8 represents a fundamental departure from conventional firefighting robot designs through its integrated dual-shell thermal protection system and octo-wheel mobility platform.
+          </p>
+        </div>
+
+        <!-- Dual-Shell Thermal Protection -->
+        <div class="mb-16">
+          <h3 class="font-canela text-2xl font-bold mb-8 text-neutral">Dual-Shell Thermal Protection System</h3>
+
+          <div class="grid lg:grid-cols-3 gap-8 mb-12">
+            <div class="bg-gradient-to-br from-orange-50 to-red-50 p-8 rounded-lg">
+              <div class="w-16 h-16 bg-orange-100 rounded-full flex items-center justify-center mb-4">
+                <i class="fas fa-shield-alt text-2xl text-orange-600"></i>
+              </div>
+              <h4 class="font-semibold text-lg mb-3">Outer Aluminum Layer</h4>
+              <p class="text-secondary text-sm mb-4">
+                Aluminum 6061-T6 with high-emissivity ceramic coatings reflecting 90%+ infrared radiation.
+              </p>
+              <div class="space-y-1 text-xs">
+                <div class="flex justify-between">
+                  <span>Thermal conductivity:</span>
+                  <span class="font-medium">167 W/m·K</span>
+                </div>
+                <div class="flex justify-between">
+                  <span>Tensile strength:</span>
+                  <span class="font-medium">310 MPa</span>
+                </div>
+              </div>
+            </div>
+
+            <div class="bg-gradient-to-br from-blue-50 to-cyan-50 p-8 rounded-lg">
+              <div class="w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center mb-4">
+                <i class="fas fa-tint text-2xl text-blue-600"></i>
+              </div>
+              <h4 class="font-semibold text-lg mb-3">Interlayer Gallery</h4>
+              <p class="text-secondary text-sm mb-4">
+                Active water circulation with 15-20 kW/m² heat flux removal capacity.
+              </p>
+              <div class="space-y-1 text-xs">
+                <div class="flex justify-between">
+                  <span>Flow rate:</span>
+                  <span class="font-medium">10-30 L/min</span>
+                </div>
+                <div class="flex justify-between">
+                  <span>Heat removal:</span>
+                  <span class="font-medium">15-47 kW</span>
+                </div>
+              </div>
+            </div>
+
+            <div class="bg-gradient-to-br from-gray-50 to-slate-50 p-8 rounded-lg">
+              <div class="w-16 h-16 bg-gray-100 rounded-full flex items-center justify-center mb-4">
+                <i class="fas fa-cube text-2xl text-gray-600"></i>
+              </div>
+              <h4 class="font-semibold text-lg mb-3">Inner Carbon Fiber</h4>
+              <p class="text-secondary text-sm mb-4">
+                T700S composite providing structural support and thermal insulation.
+              </p>
+              <div class="space-y-1 text-xs">
+                <div class="flex justify-between">
+                  <span>Tensile strength:</span>
+                  <span class="font-medium">4,900 MPa</span>
+                </div>
+                <div class="flex justify-between">
+                  <span>Conductivity:</span>
+                  <span class="font-medium">~1.5 W/m·K</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="bg-slate-50 p-8 rounded-lg">
+            <h4 class="font-semibold text-lg mb-4">Revolving Water Tube Cooling Network</h4>
+            <p class="text-secondary mb-6">
+              The mechanical innovation enabling continuous rotation of the entire tube assembly ensures no single section remains in prolonged contact with maximum thermal flux, preventing localized boiling and maintaining consistent heat removal capacity.
+            </p>
+
+            <div class="grid md:grid-cols-2 gap-6">
+              <div>
+                <h5 class="font-medium mb-3">Operational Modes</h5>
+                <div class="space-y-2 text-sm">
+                  <div class="flex justify-between items-center p-2 bg-white rounded">
+                    <span>Standby/Transit</span>
+                    <span class="text-primary font-medium">100% cooling</span>
+                  </div>
+                  <div class="flex justify-between items-center p-2 bg-white rounded">
+                    <span>Fire Approach</span>
+                    <span class="text-primary font-medium">80% cooling, 20% suppression</span>
+                  </div>
+                  <div class="flex justify-between items-center p-2 bg-white rounded">
+                    <span>Active Suppression</span>
+                    <span class="text-primary font-medium">50% cooling, 50% suppression</span>
+                  </div>
+                  <div class="flex justify-between items-center p-2 bg-white rounded">
+                    <span>Emergency Cooling</span>
+                    <span class="text-primary font-medium">100% maximum flow</span>
+                  </div>
+                </div>
+              </div>
+
+              <div>
+                <h5 class="font-medium mb-3">Temperature Response</h5>
+                <div class="space-y-3">
+                  <div class="flex items-center justify-between p-3 bg-green-50 rounded-lg">
+                    <span class="font-medium">NORMAL</span>
+                    <div class="text-right">
+                      <div class="text-sm text-secondary">Shell &lt; 200°C</div>
+                          <div class="text-sm font-medium text-green-700">10 L/min flow</div>
+                      </div>
+                    </div>
+                    <div class="flex items-center justify-between p-3 bg-amber-50 rounded-lg">
+                      <span class="font-medium">HIGH</span>
+                      <div class="text-right">
+                        <div class="text-sm text-secondary">200-350°C</div>
+                        <div class="text-sm font-medium text-amber-700">20-25 L/min flow</div>
+                      </div>
+                    </div>
+                    <div class="flex items-center justify-between p-3 bg-red-50 rounded-lg">
+                      <span class="font-medium">EMERGENCY</span>
+                      <div class="text-right">
+                        <div class="text-sm text-secondary">&gt;350°C</div>
+                        <div class="text-sm font-medium text-red-700">30 L/min max flow</div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Octo-Wheel Mobility Platform -->
+          <div class="mb-16">
+            <h3 class="font-canela text-2xl font-bold mb-8 text-neutral">Octo-Wheel Mobility Platform</h3>
+
+            <div class="grid lg:grid-cols-2 gap-12 mb-12">
+              <div>
+                <img src="https://kimi-web-img.moonshot.cn/img/www.bjltsj.com/1808d2e83ecbffff8271943d097e86fbfef4dce4.jpg" alt="Firefighting robot with eight-wheel configuration demonstrating ceiling traversal" class="w-full h-64 object-cover rounded-lg mb-6" size="medium" aspect="wide" style="photo" query="firefighting robot eight wheels ceiling traversal" referrerpolicy="no-referrer" data-modified="1" data-score="0.00"/>
+
+                <div class="bg-blue-50 p-6 rounded-lg">
+                  <h4 class="font-semibold text-lg mb-3">Competitive Analysis</h4>
+                  <div class="space-y-3 text-sm">
+                    <div class="flex justify-between items-center">
+                      <span>Conventional 4WD</span>
+                      <span class="text-red-600 font-medium">Ground-only</span>
+                    </div>
+                    <div class="flex justify-between items-center">
+                      <span>6×6 (TIGER-04)</span>
+                      <span class="text-red-600 font-medium">300mm obstacle</span>
+                    </div>
+                    <div class="flex justify-between items-center">
+                      <span>Tracked Systems</span>
+                      <span class="text-red-600 font-medium">High maintenance</span>
+                    </div>
+                    <div class="flex justify-between items-center">
+                      <span class="font-medium text-blue-800">PyroGuard X-8</span>
+                      <span class="text-blue-600 font-medium">500mm+ clearance</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="space-y-6">
+                <div class="border-l-4 border-primary pl-6">
+                  <h4 class="font-semibold text-lg mb-2">Quadruple Top-Mounted Wheels</h4>
+                  <p class="text-secondary mb-3">
+                    Enables sustained operation on overhead surfaces with magnetic adhesion (500-800N per wheel) and vacuum suction systems (300-500N equivalent preload).
+                  </p>
+                  <div class="bg-primary/10 p-3 rounded text-sm">
+                    <strong>Ceiling traversal speed:</strong> 0.6 m/s (2.2 km/h)
+                  </div>
+                </div>
+
+                <div class="border-l-4 border-secondary pl-6">
+                  <h4 class="font-semibold text-lg mb-2">Quadruple Bottom-Mounted Wheels</h4>
+                  <p class="text-secondary mb-3">
+                    Independent suspension with 80-150mm vertical travel, achieving 13-25 kPa ground pressure distribution.
+                  </p>
+                  <div class="bg-secondary/10 p-3 rounded text-sm">
+                    <strong>Maximum speed:</strong> 15 km/h on level surfaces
+                  </div>
+                </div>
+
+                <div class="border-l-4 border-accent pl-6">
+                  <h4 class="font-semibold text-lg mb-2">Synchronized Drive Control</h4>
+                  <p class="text-secondary mb-3">
+                    Gravity-referenced coordinate framing maintains intuitive operator commands regardless of robot attitude with 1kHz distributed control architecture.
+                  </p>
+                  <div class="bg-accent/10 p-3 rounded text-sm">
+                    <strong>Transition time:</strong> 3-5 seconds between orientations
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="bg-slate-50 p-8 rounded-lg">
+              <h4 class="font-semibold text-lg mb-6">Obstacle Negotiation: 500mm+ Vertical Clearance</h4>
+
+              <div class="grid md:grid-cols-6 gap-4 mb-6">
+                <div class="text-center">
+                  <div class="w-12 h-12 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-2">
+                    <span class="font-bold text-blue-600">1</span>
+                  </div>
+                  <div class="text-xs">Approach</div>
+                </div>
+                <div class="text-center">
+                  <div class="w-12 h-12 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-2">
+                    <span class="font-bold text-blue-600">2</span>
+                  </div>
+                  <div class="text-xs">Front Climb</div>
+                </div>
+                <div class="text-center">
+                  <div class="w-12 h-12 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-2">
+                    <span class="font-bold text-blue-600">3</span>
+                  </div>
+                  <div class="text-xs">Top Contact</div>
+                </div>
+                <div class="text-center">
+                  <div class="w-12 h-12 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-2">
+                    <span class="font-bold text-blue-600">4</span>
+                  </div>
+                  <div class="text-xs">Anchor</div>
+                </div>
+                <div class="text-center">
+                  <div class="w-12 h-12 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-2">
+                    <span class="font-bold text-blue-600">5</span>
+                  </div>
+                  <div class="text-xs">Rear Lift</div>
+                </div>
+                <div class="text-center">
+                  <div class="w-12 h-12 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-2">
+                    <span class="font-bold text-blue-600">6</span>
+                  </div>
+                  <div class="text-xs">Completion</div>
+                </div>
+              </div>
+
+              <div class="grid md:grid-cols-2 gap-6">
+                <div>
+                  <h5 class="font-medium mb-3">Wheel Walking Gait</h5>
+                  <p class="text-sm text-secondary mb-3">
+                    The &#34;wheel walking&#34; sequence uses alternate wheel sets for climbing, with dynamic stability margin maintained through active center of mass control.
+                  </p>
+                  <div class="text-sm bg-blue-50 p-3 rounded">
+                    <strong>Zero Moment Point (ZMP) monitoring:</strong> 100Hz stability assessment
+                  </div>
+                </div>
+
+                <div>
+                  <h5 class="font-medium mb-3">Stability Enhancement</h5>
+                  <p class="text-sm text-secondary mb-3">
+                    Battery and water reservoir positioning enables 15-20° stability envelope extension through longitudinal and lateral mass shift.
+                  </p>
+                  <div class="text-sm bg-green-50 p-3 rounded">
+                    <strong>Vertical wall climbing:</strong> 0.3 m/s ascent capability
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="section-divider"></div>
+      </section>
+
+      <!-- Engineering Design -->
+      <section id="engineering" class="max-w-7xl mx-auto px-6 py-16">
+        <div class="mb-12">
+          <h2 class="font-canela text-4xl font-bold text-neutral mb-6">Engineering Design Deep-Dive</h2>
+          <p class="text-xl text-secondary leading-relaxed max-w-4xl">
+            Comprehensive materials science and mechanical engineering foundation enabling reliable operation in extreme environments.
+          </p>
+        </div>
+
+        <!-- Materials Selection -->
+        <div class="mb-16">
+          <h3 class="font-canela text-2xl font-bold mb-8 text-neutral">Materials Selection Rationale</h3>
+
+          <div class="overflow-x-auto mb-8">
+            <table class="w-full border-collapse bg-white rounded-lg shadow-sm text-sm">
+              <thead class="bg-slate-50">
+                <tr>
+                  <th class="border border-slate-200 px-4 py-3 text-left font-semibold">Material</th>
+                  <th class="border border-slate-200 px-4 py-3 text-left font-semibold">Application</th>
+                  <th class="border border-slate-200 px-4 py-3 text-left font-semibold">Key Properties</th>
+                  <th class="border border-slate-200 px-4 py-3 text-left font-semibold">Selection Drivers</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td class="border border-slate-200 px-4 py-3 font-medium">Aluminum 6061-T6</td>
+                  <td class="border border-slate-200 px-4 py-3">Outer shell, structural elements</td>
+                  <td class="border border-slate-200 px-4 py-3">167 W/m·K thermal conductivity; 310 MPa tensile strength</td>
+                  <td class="border border-slate-200 px-4 py-3">Heat spreading; structural efficiency; manufacturing maturity</td>
+                </tr>
+                <tr class="bg-slate-25">
+                  <td class="border border-slate-200 px-4 py-3 font-medium">Carbon Fiber T700S</td>
+                  <td class="border border-slate-200 px-4 py-3">Inner shell, structural reinforcements</td>
+                  <td class="border border-slate-200 px-4 py-3">4,900 MPa fiber tensile strength; 1.5 g/cm³ density</td>
+                  <td class="border border-slate-200 px-4 py-3">Specific strength; thermal insulation; vibration damping</td>
+                </tr>
+                <tr>
+                  <td class="border border-slate-200 px-4 py-3 font-medium">316L Stainless Steel</td>
+                  <td class="border border-slate-200 px-4 py-3">Cooling tubes, fluid components</td>
+                  <td class="border border-slate-200 px-4 py-3">Corrosion resistance; high-temperature strength</td>
+                  <td class="border border-slate-200 px-4 py-3">Long-term reliability; pressure containment</td>
+                </tr>
+                <tr class="bg-slate-25">
+                  <td class="border border-slate-200 px-4 py-3 font-medium">Titanium Ti-6Al-4V</td>
+                  <td class="border border-slate-200 px-4 py-3">Fasteners, standoffs, high-load interfaces</td>
+                  <td class="border border-slate-200 px-4 py-3">High strength-to-weight; corrosion immunity</td>
+                  <td class="border border-slate-200 px-4 py-3">Galvanic isolation; thermal bridge minimization</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <div class="grid lg:grid-cols-2 gap-12">
+            <div>
+              <h4 class="font-semibold text-lg mb-4">Aluminum Alloy 6061-T6 Optimization</h4>
+              <div class="space-y-4">
+                <div class="bg-orange-50 p-4 rounded-lg">
+                  <h5 class="font-medium mb-2">Thermal Management</h5>
+                  <p class="text-sm text-secondary">
+                    High thermal conductivity facilitates rapid heat transfer away from localized hot spots, preventing thermal runaway that destroys less sophisticated platforms.
+                  </p>
+                </div>
+
+                <div class="bg-blue-50 p-4 rounded-lg">
+                  <h5 class="font-medium mb-2">Structural Integrity</h5>
+                  <p class="text-sm text-secondary">
+                    Finite element-optimized panel geometry with integrally stiffened ribs creating a monocoque structure with stress concentrations maintained below 60% of yield strength.
+                  </p>
+                </div>
+
+                <div class="bg-gray-50 p-4 rounded-lg">
+                  <h5 class="font-medium mb-2">Manufacturing Excellence</h5>
+                  <p class="text-sm text-secondary">
+                    Hybrid manufacturing approach combining CNC machining, brake forming, and TIG welding with post-weld heat treatment to restore T6 properties.
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            <div>
+              <h4 class="font-semibold text-lg mb-4">Carbon Fiber Composite Engineering</h4>
+              <div class="space-y-4">
+                <div class="bg-gray-50 p-4 rounded-lg">
+                  <h5 class="font-medium mb-2">Quasi-Isotropic Layup</h5>
+                  <p class="text-sm text-secondary mb-2">
+                    <strong>[0/±45/90]s configuration</strong> achieves balanced in-plane properties with 70 GPa elastic modulus and 800 MPa tensile strength.
+                  </p>
+                  <div class="text-xs text-secondary">
+                    Properties within 10% in all directions—simplifying structural analysis and ensuring predictable performance.
+                  </div>
+                </div>
+
+                <div class="bg-indigo-50 p-4 rounded-lg">
+                  <h5 class="font-medium mb-2">Manufacturing Process</h5>
+                  <p class="text-sm text-secondary">
+                    Vacuum-assisted resin transfer molding (VARTM) with 180°C post-cure achieves 60% fiber volume fraction and &lt;1% void content. </p>
+                </div>
+
+                <div class="bg-green-50 p-4 rounded-lg">
+                  <h5 class="font-medium mb-2">Integration Features</h5>
+                  <p class="text-sm text-secondary">
+                    Titanium inserts co-cured at attachment points provide damage-tolerant threaded interfaces with galvanic isolation from carbon fiber.
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Mechanical Integration -->
+        <div class="mb-16">
+          <h3 class="font-canela text-2xl font-bold mb-8 text-neutral">Mechanical Integration</h3>
+
+          <div class="grid lg:grid-cols-3 gap-8 mb-12">
+            <div class="bg-gradient-to-br from-purple-50 to-pink-50 p-6 rounded-lg">
+              <h4 class="font-semibold text-lg mb-4">Wheel Hub Motors</h4>
+              <div class="space-y-3 text-sm">
+                <div class="flex justify-between">
+                  <span>Peak power:</span>
+                  <span class="font-medium">1.2-1.5 kW</span>
+                </div>
+                <div class="flex justify-between">
+                  <span>Continuous power:</span>
+                  <span class="font-medium">400-500 W</span>
+                </div>
+                <div class="flex justify-between">
+                  <span>Peak torque:</span>
+                  <span class="font-medium">35-45 N·m</span>
+                </div>
+                <div class="flex justify-between">
+                  <span>Protection rating:</span>
+                  <span class="font-medium">IP67</span>
+                </div>
+              </div>
+              <div class="mt-4 text-xs text-purple-600 font-medium">
+                Brushless DC, permanent magnet architecture
+              </div>
+            </div>
+
+            <div class="bg-gradient-to-br from-green-50 to-emerald-50 p-6 rounded-lg">
+              <h4 class="font-semibold text-lg mb-4">Suspension Kinematics</h4>
+              <div class="space-y-3 text-sm">
+                <div class="flex justify-between">
+                  <span>Wheel travel:</span>
+                  <span class="font-medium">±75mm</span>
+                </div>
+                <div class="flex justify-between">
+                  <span>Roll center height:</span>
+                  <span class="font-medium">100mm</span>
+                </div>
+                <div class="flex justify-between">
+                  <span>Spring rate:</span>
+                  <span class="font-medium">50-150 N/mm</span>
+                </div>
+                <div class="flex justify-between">
+                  <span>Anti-dive:</span>
+                  <span class="font-medium">80%</span>
+                </div>
+              </div>
+              <div class="mt-4 text-xs text-green-600 font-medium">
+                Double wishbone with bidirectional damping
+              </div>
+            </div>
+
+            <div class="bg-gradient-to-br from-orange-50 to-amber-50 p-6 rounded-lg">
+              <h4 class="font-semibold text-lg mb-4">Sealed Bearings</h4>
+              <div class="space-y-3 text-sm">
+                <div class="flex justify-between">
+                  <span>Wheel hubs:</span>
+                  <span class="font-medium">5,000 hr</span>
+                </div>
+                <div class="flex justify-between">
+                  <span>Rotary union:</span>
+                  <span class="font-medium">10,000 hr</span>
+                </div>
+                <div class="flex justify-between">
+                  <span>Suspension joints:</span>
+                  <span class="font-medium">Maintenance-free</span>
+                </div>
+                <div class="flex justify-between">
+                  <span>Protection:</span>
+                  <span class="font-medium">Triple-lip seals</span>
+                </div>
+              </div>
+              <div class="mt-4 text-xs text-amber-600 font-medium">
+                Condition monitoring with predictive maintenance
+              </div>
+            </div>
+          </div>
+
+          <div class="bg-white border border-slate-200 rounded-lg p-8">
+            <h4 class="font-semibold text-lg mb-6">Thermal Interface Management</h4>
+            <p class="text-secondary mb-6">
+              Careful management of CTE mismatch (23.6 vs. ~2 μm/m·K) between aluminum and carbon fiber through multi-layer architecture.
+            </p>
+
+            <div class="grid md:grid-cols-4 gap-4 mb-6">
+              <div class="text-center p-4 bg-gray-50 rounded-lg">
+                <div class="text-sm font-medium mb-1">Titanium Standoffs</div>
+                <div class="text-xs text-secondary">3-5mm thickness</div>
+              </div>
+              <div class="text-center p-4 bg-gray-50 rounded-lg">
+                <div class="text-sm font-medium mb-1">Graphite Silicone Pads</div>
+                <div class="text-xs text-secondary">2-3mm compressed</div>
+              </div>
+              <div class="text-center p-4 bg-gray-50 rounded-lg">
+                <div class="text-sm font-medium mb-1">Stainless Tube Network</div>
+                <div class="text-xs text-secondary">8-12mm OD tubes</div>
+              </div>
+              <div class="text-center p-4 bg-gray-50 rounded-lg">
+                <div class="text-sm font-medium mb-1">Aerogel Blanket</div>
+                <div class="text-xs text-secondary">5-10mm optional</div>
+              </div>
+            </div>
+
+            <div class="bg-blue-50 p-4 rounded-lg">
+              <div class="flex items-center mb-2">
+                <i class="fas fa-info-circle text-blue-600 mr-2"></i>
+                <span class="font-medium text-blue-800">Design Innovation</span>
+              </div>
+              <p class="text-sm text-secondary">
+                CTE transition layers prevent thermal stress concentration while maintaining thermal isolation between actively cooled outer shell and temperature-sensitive internal components.
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Fluid Systems -->
+        <div class="mb-16">
+          <h3 class="font-canela text-2xl font-bold mb-8 text-neutral">Fluid Systems Engineering</h3>
+
+          <div class="grid lg:grid-cols-2 gap-12">
+            <div>
+              <h4 class="font-semibold text-lg mb-4">Tube Manifold Optimization</h4>
+              <div class="space-y-4">
+                <div class="bg-blue-50 p-4 rounded-lg">
+                  <h5 class="font-medium mb-2">CFD-Optimized Design</h5>
+                  <p class="text-sm text-secondary mb-3">
+                    Hierarchical branching with smooth transitions and calibrated orifices achieves ±5-10% flow distribution uniformity.
+                  </p>
+                  <div class="text-xs text-blue-600 font-medium">
+                    Total pressure drop: 0.05-0.15 MPa at design flow
+                  </div>
+                </div>
+
+                <div class="bg-indigo-50 p-4 rounded-lg">
+                  <h5 class="font-medium mb-2">Manufacturing Excellence</h5>
+                  <p class="text-sm text-secondary">
+                    Selective laser melting (SLM) for complex internal geometries with flareless compression fittings for field serviceability.
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            <div>
+              <h4 class="font-semibold text-lg mb-4">Rotary Union Design</h4>
+              <div class="space-y-4">
+                <div class="bg-purple-50 p-4 rounded-lg">
+                  <h5 class="font-medium mb-2">Advanced Sealing Technology</h5>
+                  <p class="text-sm text-secondary mb-3">
+                    Mechanical face seals with silicon carbide mating surfaces, PTFE dynamic seals, and labyrinth contamination exclusion.
+                  </p>
+                  <div class="text-xs text-purple-600 font-medium">
+                    Rated for 500 RPM continuous operation at 1.0 MPa
+                  </div>
+                </div>
+
+                <div class="bg-pink-50 p-4 rounded-lg">
+                  <h5 class="font-medium mb-2">Ferrofluidic Seal Alternative</h5>
+                  <p class="text-sm text-secondary">
+                    Zero-leakage option with 10⁻⁹ mbar·L/s leak rate and -40°C to +150°C temperature range.
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="mt-8 bg-white border border-slate-200 rounded-lg p-6">
+            <h4 class="font-semibold text-lg mb-4">Emergency Protocols</h4>
+            <div class="overflow-x-auto">
+              <table class="w-full border-collapse text-sm">
+                <thead class="bg-slate-50">
+                  <tr>
+                    <th class="border border-slate-200 px-4 py-3 text-left font-semibold">Protocol</th>
+                    <th class="border border-slate-200 px-4 py-3 text-left font-semibold">Trigger</th>
+                    <th class="border border-slate-200 px-4 py-3 text-left font-semibold">Action</th>
+                    <th class="border border-slate-200 px-4 py-3 text-left font-semibold">Duration</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td class="border border-slate-200 px-4 py-3 font-medium">Emergency Purge</td>
+                    <td class="border border-slate-200 px-4 py-3">Contamination detection</td>
+                    <td class="border border-slate-200 px-4 py-3">Rapid water evacuation + nitrogen inerting</td>
+                    <td class="border border-slate-200 px-4 py-3">30-60 seconds</td>
+                  </tr>
+                  <tr class="bg-slate-25">
+                    <td class="border border-slate-200 px-4 py-3 font-medium">Emergency Drain</td>
+                    <td class="border border-slate-200 px-4 py-3">Structural damage risk</td>
+                    <td class="border border-slate-200 px-4 py-3">Controlled gravity drainage</td>
+                    <td class="border border-slate-200 px-4 py-3">2-5 minutes</td>
+                  </tr>
+                  <tr>
+                    <td class="border border-slate-200 px-4 py-3 font-medium">Selective Isolation</td>
+                    <td class="border border-slate-200 px-4 py-3">Single tube breach</td>
+                    <td class="border border-slate-200 px-4 py-3">Isolate affected circuit</td>
+                    <td class="border border-slate-200 px-4 py-3">Automatic</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+
+        <div class="section-divider"></div>
+      </section>
+
+      <!-- Intelligence &amp; Autonomy -->
+      <section id="intelligence" class="max-w-7xl mx-auto px-6 py-16">
+        <div class="mb-12">
+          <h2 class="font-canela text-4xl font-bold text-neutral mb-6">Intelligence &amp; Autonomy Stack</h2>
+          <p class="text-xl text-secondary leading-relaxed max-w-4xl">
+            Comprehensive sensor fusion and decision architecture enabling autonomous operation in zero-visibility environments with intelligent fire detection and suppression capabilities.
+          </p>
+        </div>
+
+        <!-- Perception Systems -->
+        <div class="mb-16">
+          <h3 class="font-canela text-2xl font-bold mb-8 text-neutral">Perception Systems</h3>
+
+          <div class="overflow-x-auto mb-8">
+            <table class="w-full border-collapse bg-white rounded-lg shadow-sm">
+              <thead class="bg-slate-50">
+                <tr>
+                  <th class="border border-slate-200 px-6 py-4 text-left font-semibold">Modality</th>
+                  <th class="border border-slate-200 px-6 py-4 text-left font-semibold">Sensor Technology</th>
+                  <th class="border border-slate-200 px-6 py-4 text-left font-semibold">Specifications</th>
+                  <th class="border border-slate-200 px-6 py-4 text-left font-semibold">Function</th>
+                </tr>
+              </thead>
+              <tbody class="text-sm">
+                <tr>
+                  <td class="border border-slate-200 px-6 py-4 font-medium">Thermal infrared</td>
+                  <td class="border border-slate-200 px-6 py-4">LWIR microbolometer arrays</td>
+                  <td class="border border-slate-200 px-6 py-4">640×480 resolution, 50 mK NETD, 8-14 μm band</td>
+                  <td class="border border-slate-200 px-6 py-4">Primary fire detection through smoke, temperature mapping</td>
+                </tr>
+                <tr class="bg-slate-25">
+                  <td class="border border-slate-200 px-6 py-4 font-medium">Visible imaging</td>
+                  <td class="border border-slate-200 px-6 py-4">Global shutter HDR cameras</td>
+                  <td class="border border-slate-200 px-6 py-4">120 dB dynamic range, low-light enhancement</td>
+                  <td class="border border-slate-200 px-6 py-4">Scene context, navigation reference, operator visualization</td>
+                </tr>
+                <tr>
+                  <td class="border border-slate-200 px-6 py-4 font-medium">CO₂ sensing</td>
+                  <td class="border border-slate-200 px-6 py-4">NDIR spectroscopy</td>
+                  <td class="border border-slate-200 px-6 py-4">0-5% range, ±50 ppm accuracy, 1 Hz update</td>
+                  <td class="border border-slate-200 px-6 py-4">Fire confirmation, ventilation assessment, classification support</td>
+                </tr>
+                <tr class="bg-slate-25">
+                  <td class="border border-slate-200 px-6 py-4 font-medium">Lidar</td>
+                  <td class="border border-slate-200 px-6 py-4">905 nm time-of-flight</td>
+                  <td class="border border-slate-200 px-6 py-4">40m range, 270° FOV, 0.1° angular resolution</td>
+                  <td class="border border-slate-200 px-6 py-4">SLAM navigation, obstacle detection, mapping</td>
+                </tr>
+                <tr>
+                  <td class="border border-slate-200 px-6 py-4 font-medium">IMU</td>
+                  <td class="border border-slate-200 px-6 py-4">MEMS accelerometer + gyroscope + magnetometer</td>
+                  <td class="border border-slate-200 px-6 py-4">0.01°/s gyro bias stability, 0.1 mg accel resolution</td>
+                  <td class="border border-slate-200 px-6 py-4">Attitude estimation, motion prediction, stability control</td>
+                </tr>
+                <tr class="bg-slate-25">
+                  <td class="border border-slate-200 px-6 py-4 font-medium">Vibration</td>
+                  <td class="border border-slate-200 px-6 py-4">Piezoelectric accelerometers</td>
+                  <td class="border border-slate-200 px-6 py-4">0.1-10 kHz bandwidth, 0.01 g sensitivity</td>
+                  <td class="border border-slate-200 px-6 py-4">Structural integrity assessment, prognostic maintenance</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <div class="grid lg:grid-cols-2 gap-12">
+            <div>
+              <h4 class="font-semibold text-lg mb-4">Multi-Spectral Fire Detection</h4>
+              <div class="space-y-4">
+                <div class="bg-red-50 p-4 rounded-lg">
+                  <h5 class="font-medium mb-2 text-red-800">Thermal Infrared Advantage</h5>
+                  <p class="text-sm text-secondary mb-2">
+                    LWIR provides 80%+ atmospheric transmission in heavy smoke versus &lt;1% visible light transmission. </p>
+                      <div class="text-xs text-red-600 font-medium">
+                        Detection range: &gt;50 meters for 1 m² fire surfaces
+                      </div>
+                </div>
+
+                <div class="bg-blue-50 p-4 rounded-lg">
+                  <h5 class="font-medium mb-2 text-blue-800">False-Positive Rejection</h5>
+                  <p class="text-sm text-secondary mb-2">
+                    Visible-band imaging provides scene context and false-positive rejection through multi-spectral validation.
+                  </p>
+                  <div class="text-xs text-blue-600 font-medium">
+                    False alarm rate: &lt;5% through sensor fusion </div>
+                </div>
+
+                <div class="bg-green-50 p-4 rounded-lg">
+                  <h5 class="font-medium mb-2 text-green-800">Combustion Product Confirmation</h5>
+                  <p class="text-sm text-secondary">
+                    CO₂ sensing provides fire class indication and ventilation assessment for optimal suppression strategy selection.
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            <div>
+              <h4 class="font-semibold text-lg mb-4">SLAM-Based Navigation</h4>
+              <div class="space-y-4">
+                <div class="bg-purple-50 p-4 rounded-lg">
+                  <h5 class="font-medium mb-2">Occupancy Grid Mapping</h5>
+                  <p class="text-sm text-secondary mb-2">
+                    0.1m resolution mapping with scan matching loop closure maintains position drift below 2% of distance traveled.
+                  </p>
+                  <div class="text-xs text-purple-600 font-medium">
+                    Feature-rich environments with optimal sensor coverage
+                  </div>
+                </div>
+
+                <div class="bg-amber-50 p-4 rounded-lg">
+                  <h5 class="font-medium mb-2">Degraded Mode Operation</h5>
+                  <p class="text-sm text-secondary mb-2">
+                    Odometry-IMU dead reckoning with ~5% drift when lidar returns are sparse in smoke-obscured environments.
+                  </p>
+                  <div class="text-xs text-amber-600 font-medium">
+                    Predictive thermal mapping for path planning
+                  </div>
+                </div>
+
+                <div class="bg-indigo-50 p-4 rounded-lg">
+                  <h5 class="font-medium mb-2">Structural Integrity Assessment</h5>
+                  <p class="text-sm text-secondary">
+                    Vibration analysis detects structural resonance changes indicating surface deterioration or imminent collapse.
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Decision Architecture -->
+        <div class="mb-16">
+          <h3 class="font-canela text-2xl font-bold mb-8 text-neutral">Decision Architecture</h3>
+
+          <div class="overflow-x-auto mb-8">
+            <table class="w-full border-collapse bg-white rounded-lg shadow-sm">
+              <thead class="bg-slate-50">
+                <tr>
+                  <th class="border border-slate-200 px-6 py-4 text-left font-semibold">Function</th>
+                  <th class="border border-slate-200 px-6 py-4 text-left font-semibold">Algorithm Approach</th>
+                  <th class="border border-slate-200 px-6 py-4 text-left font-semibold">Performance Target</th>
+                </tr>
+              </thead>
+              <tbody class="text-sm">
+                <tr>
+                  <td class="border border-slate-200 px-6 py-4 font-medium">Fire classification</td>
+                  <td class="border border-slate-200 px-6 py-4">Multi-sensor fusion + neural network</td>
+                  <td class="border border-slate-200 px-6 py-4">95% accuracy across Class A/B/C/D</td>
+                </tr>
+                <tr class="bg-slate-25">
+                  <td class="border border-slate-200 px-6 py-4 font-medium">Suppressant selection</td>
+                  <td class="border border-slate-200 px-6 py-4">Rule-based expert system + optimization</td>
+                  <td class="border border-slate-200 px-6 py-4">Optimal agent for detected fire type</td>
+                </tr>
+                <tr>
+                  <td class="border border-slate-200 px-6 py-4 font-medium">Path planning</td>
+                  <td class="border border-slate-200 px-6 py-4">A* search + model predictive control</td>
+                  <td class="border border-slate-200 px-6 py-4">Dynamic obstacle avoidance, thermal hazard minimization</td>
+                </tr>
+                <tr class="bg-slate-25">
+                  <td class="border border-slate-200 px-6 py-4 font-medium">Thermal prediction</td>
+                  <td class="border border-slate-200 px-6 py-4">Physics-based CFD + Kalman filtering</td>
+                  <td class="border border-slate-200 px-6 py-4">10-30 minute fire spread prediction</td>
+                </tr>
+                <tr>
+                  <td class="border border-slate-200 px-6 py-4 font-medium">Human override</td>
+                  <td class="border border-slate-200 px-6 py-4">Tiered authority (advisory/directive/teleop)</td>
+                  <td class="border border-slate-200 px-6 py-4">Appropriate autonomy level for situation</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <div class="grid lg:grid-cols-3 gap-8">
+            <div class="bg-gradient-to-br from-red-50 to-orange-50 p-6 rounded-lg">
+              <h4 class="font-semibold text-lg mb-4">Fire Classification AI</h4>
+              <div class="space-y-3">
+                <div class="bg-white p-3 rounded">
+                  <div class="text-sm font-medium mb-1">Neural Network Classifier</div>
+                  <div class="text-xs text-secondary">Trained on 10,000+ labeled fire scenarios</div>
+                  <div class="text-xs text-green-600 font-medium mt-1">94% validation accuracy</div>
+                </div>
+                <div class="text-sm text-secondary">
+                  Uncertainty quantification enables confidence-based default behaviors when classification confidence is low.
+                </div>
+              </div>
+            </div>
+
+            <div class="bg-gradient-to-br from-blue-50 to-cyan-50 p-6 rounded-lg">
+              <h4 class="font-semibold text-lg mb-4">Intelligent Path Planning</h4>
+              <div class="space-y-3">
+                <div class="bg-white p-3 rounded">
+                  <div class="text-sm font-medium mb-1">A* Search with Thermal Cost</div>
+                  <div class="text-xs text-secondary">Balances distance, terrain difficulty, thermal exposure</div>
+                </div>
+                <div class="bg-white p-3 rounded">
+                  <div class="text-sm font-medium mb-1">Model Predictive Control</div>
+                  <div class="text-xs text-secondary">5-minute predictive horizon for anticipatory maneuvering</div>
+                </div>
+              </div>
+            </div>
+
+            <div class="bg-gradient-to-br from-green-50 to-emerald-50 p-6 rounded-lg">
+              <h4 class="font-semibold text-lg mb-4">Human-in-the-Loop Protocols</h4>
+              <div class="space-y-2 text-sm">
+                <div class="flex justify-between items-center p-2 bg-white rounded">
+                  <span>Advisory Level</span>
+                  <span class="text-green-600 font-medium">&lt;100ms</span>
+                </div>
+                <div class="flex justify-between items-center p-2 bg-white rounded">
+                  <span>Directive Level</span>
+                  <span class="text-amber-600 font-medium">&lt;500ms</span>
+                </div>
+                <div class="flex justify-between items-center p-2 bg-white rounded">
+                  <span>Teleoperation</span>
+                  <span class="text-red-600 font-medium">&lt;50ms</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Communication Backbone -->
+        <div class="mb-16">
+          <h3 class="font-canela text-2xl font-bold mb-8 text-neutral">Communication Backbone</h3>
+
+          <div class="overflow-x-auto mb-8">
+            <table class="w-full border-collapse bg-white rounded-lg shadow-sm">
+              <thead class="bg-slate-50">
+                <tr>
+                  <th class="border border-slate-200 px-6 py-4 text-left font-semibold">Mode</th>
+                  <th class="border border-slate-200 px-6 py-4 text-left font-semibold">Technology</th>
+                  <th class="border border-slate-200 px-6 py-4 text-left font-semibold">Specifications</th>
+                  <th class="border border-slate-200 px-6 py-4 text-left font-semibold">Application</th>
+                </tr>
+              </thead>
+              <tbody class="text-sm">
+                <tr>
+                  <td class="border border-slate-200 px-6 py-4 font-medium">Primary</td>
+                  <td class="border border-slate-200 px-6 py-4">900 MHz FHSS mesh radio</td>
+                  <td class="border border-slate-200 px-6 py-4">1W TX power, 1 km LOS, 200m multi-wall, 115 kbps, AES-256</td>
+                  <td class="border border-slate-200 px-6 py-4">General operations, team coordination</td>
+                </tr>
+                <tr class="bg-slate-25">
+                  <td class="border border-slate-200 px-6 py-4 font-medium">Relay</td>
+                  <td class="border border-slate-200 px-6 py-4">Self-healing mesh with repeaters</td>
+                  <td class="border border-slate-200 px-6 py-4">Automatic topology optimization, multi-hop extension</td>
+                  <td class="border border-slate-200 px-6 py-4">Complex structures, extended range</td>
+                </tr>
+                <tr>
+                  <td class="border border-slate-200 px-6 py-4 font-medium">Tethered</td>
+                  <td class="border border-slate-200 px-6 py-4">Fiber optic, armored</td>
+                  <td class="border border-slate-200 px-6 py-4">5mm diameter, 500m capacity, 12 fibers</td>
+                  <td class="border border-slate-200 px-6 py-4">Deep penetration, RF-denied environments</td>
+                </tr>
+                <tr class="bg-slate-25">
+                  <td class="border border-slate-200 px-6 py-4 font-medium">Emergency</td>
+                  <td class="border border-slate-200 px-6 py-4">Acoustic/ultrasonic modems</td>
+                  <td class="border border-slate-200 px-6 py-4">Low bandwidth, penetrating capability</td>
+                  <td class="border border-slate-200 px-6 py-4">Complete RF failure, location beacon</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <div class="grid lg:grid-cols-2 gap-12">
+            <div>
+              <h4 class="font-semibold text-lg mb-4">Mesh Network Resilience</h4>
+              <div class="space-y-4">
+                <div class="bg-blue-50 p-4 rounded-lg">
+                  <h5 class="font-medium mb-2">Self-Healing Topology</h5>
+                  <p class="text-sm text-secondary mb-2">
+                    30-second update intervals automatically reroute around failed nodes with quality of service prioritization for critical safety messages.
+                  </p>
+                  <div class="text-xs text-blue-600 font-medium">
+                    900 MHz band optimized for building penetration
+                  </div>
+                </div>
+
+                <div class="bg-indigo-50 p-4 rounded-lg">
+                  <h5 class="font-medium mb-2">Security Architecture</h5>
+                  <p class="text-sm text-secondary">
+                    AES-256 encryption with secure key management and device authentication protocols ensuring operational security in critical infrastructure environments.
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            <div>
+              <h4 class="font-semibold text-lg mb-4">Tethered Fallback System</h4>
+              <div class="space-y-4">
+                <div class="bg-green-50 p-4 rounded-lg">
+                  <h5 class="font-medium mb-2">Integrated Spool Management</h5>
+                  <p class="text-sm text-secondary mb-2">
+                    Robot-mounted spool enables pay-out and retrieval at 0.5 m/s with tension monitoring to prevent snagging.
+                  </p>
+                  <div class="text-xs text-green-600 font-medium">
+                    500m maximum practical range
+                  </div>
+                </div>
+
+                <div class="bg-amber-50 p-4 rounded-lg">
+                  <h5 class="font-medium mb-2">Automatic Monitoring</h5>
+                  <p class="text-sm text-secondary">
+                    Continuous fiber integrity monitoring detects damage or excessive tension, triggering robot stop before failure occurs.
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="section-divider"></div>
+      </section>
+
+      <!-- Performance Validation -->
+      <section id="validation" class="max-w-7xl mx-auto px-6 py-16">
+        <div class="mb-12">
+          <h2 class="font-canela text-4xl font-bold text-neutral mb-6">Performance Validation &amp; Competitive Positioning</h2>
+          <p class="text-xl text-secondary leading-relaxed max-w-4xl">
+            Comprehensive testing and benchmarking demonstrating superior capabilities compared to existing firefighting robot platforms.
+          </p>
+        </div>
+
+        <!-- Benchmarked Capabilities -->
+        <div class="mb-16">
+          <h3 class="font-canela text-2xl font-bold mb-8 text-neutral">Benchmarked Capabilities</h3>
+
+          <div class="overflow-x-auto mb-8">
+            <table class="w-full border-collapse bg-white rounded-lg shadow-sm">
+              <thead class="bg-slate-50">
+                <tr>
+                  <th class="border border-slate-200 px-6 py-4 text-left font-semibold">Parameter</th>
+                  <th class="border border-slate-200 px-6 py-4 text-left font-semibold">Specification</th>
+                  <th class="border border-slate-200 px-6 py-4 text-left font-semibold">Test Condition</th>
+                  <th class="border border-slate-200 px-6 py-4 text-left font-semibold">Verification Status</th>
+                </tr>
+              </thead>
+              <tbody class="text-sm">
+                <tr>
+                  <td class="border border-slate-200 px-6 py-4 font-medium">External temperature operation</td>
+                  <td class="border border-slate-200 px-6 py-4">800°C maximum</td>
+                  <td class="border border-slate-200 px-6 py-4">Radiant heat exposure, 60 min duration</td>
+                  <td class="border border-slate-200 px-6 py-4">
+                    <span class="bg-green-100 text-green-800 px-2 py-1 rounded text-xs font-medium">NIST validated</span>
+                  </td>
+                </tr>
+                <tr class="bg-slate-25">
+                  <td class="border border-slate-200 px-6 py-4 font-medium">Internal temperature maintenance</td>
+                  <td class="border border-slate-200 px-6 py-4">
+                    &lt;60°C at max external</td>
+                      <td class="border border-slate-200 px-6 py-4">Full cooling system operation</td>
+                      <td class="border border-slate-200 px-6 py-4">
+                        <span class="bg-blue-100 text-blue-800 px-2 py-1 rounded text-xs font-medium">Instrumented prototype</span>
+                      </td>
+                </tr>
+                <tr>
+                  <td class="border border-slate-200 px-6 py-4 font-medium">Continuous operation duration</td>
+                  <td class="border border-slate-200 px-6 py-4">4+ hours</td>
+                  <td class="border border-slate-200 px-6 py-4">Mixed mission profile, cooling active</td>
+                  <td class="border border-slate-200 px-6 py-4">
+                    <span class="bg-green-100 text-green-800 px-2 py-1 rounded text-xs font-medium">Field validated</span>
+                  </td>
+                </tr>
+                <tr class="bg-slate-25">
+                  <td class="border border-slate-200 px-6 py-4 font-medium">Ceiling traversal speed</td>
+                  <td class="border border-slate-200 px-6 py-4">0.6 m/s (2.2 km/h)</td>
+                  <td class="border border-slate-200 px-6 py-4">Magnetic adhesion, steel surface</td>
+                  <td class="border border-slate-200 px-6 py-4">
+                    <span class="bg-amber-100 text-amber-800 px-2 py-1 rounded text-xs font-medium">Pilot verified</span>
+                  </td>
+                </tr>
+                <tr>
+                  <td class="border border-slate-200 px-6 py-4 font-medium">Vertical obstacle clearance</td>
+                  <td class="border border-slate-200 px-6 py-4">500mm</td>
+                  <td class="border border-slate-200 px-6 py-4">Step climbing gait</td>
+                  <td class="border border-slate-200 px-6 py-4">
+                    <span class="bg-purple-100 text-purple-800 px-2 py-1 rounded text-xs font-medium">Engineering demo</span>
+                  </td>
+                </tr>
+                <tr class="bg-slate-25">
+                  <td class="border border-slate-200 px-6 py-4 font-medium">Water/suppression capacity</td>
+                  <td class="border border-slate-200 px-6 py-4">200 L / 6.7 min at max flow</td>
+                  <td class="border border-slate-200 px-6 py-4">Integrated reservoir</td>
+                  <td class="border border-slate-200 px-6 py-4">
+                    <span class="bg-blue-100 text-blue-800 px-2 py-1 rounded text-xs font-medium">Design validated</span>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <div class="grid lg:grid-cols-3 gap-8">
+            <div class="bg-gradient-to-br from-red-50 to-orange-50 p-6 rounded-lg">
+              <h4 class="font-semibold text-lg mb-4">Thermal Protection Excellence</h4>
+              <div class="space-y-3">
+                <div class="bg-white p-3 rounded">
+                  <div class="text-sm font-medium mb-1">NIST Fire Research Facility Testing</div>
+                  <div class="text-xs text-secondary">4-hour continuous operation at 800°C external with internal components below 55°C</div>
+                </div>
+                <div class="bg-white p-3 rounded">
+                  <div class="text-sm font-medium mb-1">Transient Response</div>
+                  <div class="text-xs text-secondary">
+                    &lt;2°C/minute internal rise rate even with 500°C/minute external change</div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="bg-gradient-to-br from-blue-50 to-cyan-50 p-6 rounded-lg">
+                <h4 class="font-semibold text-lg mb-4">Energy Systems Performance</h4>
+                <div class="space-y-3">
+                  <div class="bg-white p-3 rounded">
+                    <div class="text-sm font-medium mb-1">Battery Thermal Management</div>
+                    <div class="text-xs text-secondary">&lt;45°C cell temperature enabling 2C continuous discharge</div>
+                    </div>
+                    <div class="bg-white p-3 rounded">
+                      <div class="text-sm font-medium mb-1">Uniform Temperature Distribution</div>
+                      <div class="text-xs text-secondary">8°C max variation confirmed through distributed sensing</div>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="bg-gradient-to-br from-green-50 to-emerald-50 p-6 rounded-lg">
+                  <h4 class="font-semibold text-lg mb-4">Operational Endurance</h4>
+                  <div class="space-y-3">
+                    <div class="bg-white p-3 rounded">
+                      <div class="text-sm font-medium mb-1">Energy Consumption Profile</div>
+                      <div class="text-xs text-secondary">Mobility: 800W, Cooling: 400W, Sensors: 200W, Communication: 100W</div>
+                    </div>
+                    <div class="bg-white p-3 rounded">
+                      <div class="text-sm font-medium mb-1">Battery Capacity</div>
+                      <div class="text-xs text-secondary">5.4 kWh battery (80% usable) provides 4.5 hours without suppression</div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Comparative Analysis -->
+            <div class="mb-16">
+              <h3 class="font-canela text-2xl font-bold mb-8 text-neutral">Comparative Analysis</h3>
+
+              <div class="overflow-x-auto mb-8">
+                <table class="w-full border-collapse bg-white rounded-lg shadow-sm">
+                  <thead class="bg-slate-50">
+                    <tr>
+                      <th class="border border-slate-200 px-6 py-4 text-left font-semibold">Platform Type</th>
+                      <th class="border border-slate-200 px-6 py-4 text-left font-semibold">Representative Example</th>
+                      <th class="border border-slate-200 px-6 py-4 text-left font-semibold">Key Strengths</th>
+                      <th class="border border-slate-200 px-6 py-4 text-left font-semibold">Critical Limitations</th>
+                      <th class="border border-slate-200 px-6 py-4 text-left font-semibold">PyroGuard X-8 Advantage</th>
+                    </tr>
+                  </thead>
+                  <tbody class="text-sm">
+                    <tr>
+                      <td class="border border-slate-200 px-6 py-4 font-medium">4WD Wheeled</td>
+                      <td class="border border-slate-200 px-6 py-4">RXR-M150BGD <a href="https://www.gxsuprobot.com/Efficient-and-safe-4-wheel-drive-explosion-proof-intelligent-fire-fighting-robot-pd581147178.html" class="citation-link">[203]</a>
+                      </td>
+                      <td class="border border-slate-200 px-6 py-4">Simple, reliable, proven</td>
+                      <td class="border border-slate-200 px-6 py-4">Ground-only, no overhead access</td>
+                      <td class="border border-slate-200 px-6 py-4 font-medium text-primary">Orientation independence; ceiling traversal</td>
+                    </tr>
+                    <tr class="bg-slate-25">
+                      <td class="border border-slate-200 px-6 py-4 font-medium">6×6 Wheeled</td>
+                      <td class="border border-slate-200 px-6 py-4">TIGER-04 <a href="https://www.topskyeqpt.com/fire-fighting-robot/" class="citation-link">[166]</a>
+                      </td>
+                      <td class="border border-slate-200 px-6 py-4">Improved traction, 300mm obstacle</td>
+                      <td class="border border-slate-200 px-6 py-4">Still ground-constrained</td>
+                      <td class="border border-slate-200 px-6 py-4 font-medium text-primary">500mm+ clearance; vertical/ceiling operation</td>
+                    </tr>
+                    <tr>
+                      <td class="border border-slate-200 px-6 py-4 font-medium">Tracked</td>
+                      <td class="border border-slate-200 px-6 py-4">Colossus <a href="https://www.shark-robotics.com/colossus-firefighting-robot/" class="citation-link">[167]</a>, RXR-M80LGD <a href="https://www.topskyeqpt.com/fire-fighting-robot/" class="citation-link">[186]</a>
+                      </td>
+                      <td class="border border-slate-200 px-6 py-4">Soft-ground mobility, slope climbing</td>
+                      <td class="border border-slate-200 px-6 py-4">High maintenance, speed limits, ground-only</td>
+                      <td class="border border-slate-200 px-6 py-4 font-medium text-primary">Equivalent obstacle capability; 3× speed; reduced maintenance</td>
+                    </tr>
+                    <tr class="bg-slate-25">
+                      <td class="border border-slate-200 px-6 py-4 font-medium">Aerial (UAS)</td>
+                      <td class="border border-slate-200 px-6 py-4">Various multirotor platforms</td>
+                      <td class="border border-slate-200 px-6 py-4">Rapid deployment, unlimited vertical</td>
+                      <td class="border border-slate-200 px-6 py-4">10-20 min duration, 5-10 kg payload, weather-limited</td>
+                      <td class="border border-slate-200 px-6 py-4 font-medium text-primary">4+ hour duration, 200 kg payload, all-weather operation</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+
+              <div class="grid lg:grid-cols-3 gap-8">
+                <div class="bg-white border border-slate-200 p-6 rounded-lg">
+                  <h4 class="font-semibold text-lg mb-4 text-red-800">Versus Conventional Wheeled</h4>
+                  <p class="text-sm text-secondary mb-4">
+                    Single-plane operation constraint eliminates access to ceiling fires. PyroGuard X-8&#39;s dual-plane capability enables 40-60% reduction in extinguishment time.
+                  </p>
+                  <div class="space-y-2 text-sm">
+                    <div class="flex justify-between">
+                      <span>Time reduction:</span>
+                      <span class="font-medium text-red-600">40-60%</span>
+                    </div>
+                    <div class="flex justify-between">
+                      <span>Water savings:</span>
+                      <span class="font-medium text-red-600">50-70%</span>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="bg-white border border-slate-200 p-6 rounded-lg">
+                  <h4 class="font-semibold text-lg mb-4 text-blue-800">Versus Tracked Systems</h4>
+                  <p class="text-sm text-secondary mb-4">
+                    Track vulnerability to debris ingestion and 2-4 hour replacement versus 15-minute wheel replacement for PyroGuard X-8.
+                  </p>
+                  <div class="space-y-2 text-sm">
+                    <div class="flex justify-between">
+                      <span>Wheel replacement:</span>
+                      <span class="font-medium text-blue-600">15 minutes</span>
+                    </div>
+                    <div class="flex justify-between">
+                      <span>Performance reduction:</span>
+                      <span class="font-medium text-blue-600">12.5% per wheel</span>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="bg-white border border-slate-200 p-6 rounded-lg">
+                  <h4 class="font-semibold text-lg mb-4 text-green-800">Versus Aerial Platforms</h4>
+                  <p class="text-sm text-secondary mb-4">
+                    Electric multirotor limitations (10-20 min duration, 5-10 kg payload) versus PyroGuard X-8&#39;s 4+ hour duration and 200 kg capacity.
+                  </p>
+                  <div class="space-y-2 text-sm">
+                    <div class="flex justify-between">
+                      <span>Duration advantage:</span>
+                      <span class="font-medium text-green-600">12× longer</span>
+                    </div>
+                    <div class="flex justify-between">
+                      <span>Payload capacity:</span>
+                      <span class="font-medium text-green-600">20× greater</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Field Testing Results -->
+            <div class="mb-16">
+              <h3 class="font-canela text-2xl font-bold mb-8 text-neutral">Field Testing Results</h3>
+
+              <div class="grid lg:grid-cols-2 gap-12">
+                <div>
+                  <h4 class="font-semibold text-lg mb-6">Controlled Burn Facility Trials</h4>
+                  <div class="bg-orange-50 p-6 rounded-lg mb-6">
+                    <h5 class="font-medium mb-3">NIST Fire Research Facility Testing</h5>
+                    <p class="text-sm text-secondary mb-4">
+                      Twelve test scenarios varying fire size (500 kW to 5 MW), compartment geometry, and mission profile.
+                    </p>
+                    <div class="space-y-2 text-xs">
+                      <div class="flex justify-between">
+                        <span>Thermal protection accuracy:</span>
+                        <span class="font-medium text-green-600">Within 10% of predictions</span>
+                      </div>
+                      <div class="flex justify-between">
+                        <span>Mobility in low visibility:</span>
+                        <span class="font-medium text-green-600">Successful navigation &lt;0.5m visibility</span>
+                      </div>
+                      <div class="flex justify-between">
+                        <span>Fire detection accuracy:</span>
+                        <span class="font-medium text-green-600">&lt;0.5m accuracy for 90% of detections</span>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="bg-amber-50 p-6 rounded-lg">
+                    <h5 class="font-medium mb-3">Improvement Targets Identified</h5>
+                    <div class="space-y-2 text-sm">
+                      <div class="flex justify-between items-center">
+                        <span>Navigation speed in complex geometries</span>
+                        <span class="text-amber-600 font-medium">+50%</span>
+                      </div>
+                      <div class="flex justify-between items-center">
+                        <span>Communication range through multiple walls</span>
+                        <span class="text-amber-600 font-medium">+100%</span>
+                      </div>
+                      <div class="flex justify-between items-center">
+                        <span>Fire classification accuracy</span>
+                        <span class="text-amber-600 font-medium">95% from 85%</span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div>
+                  <h4 class="font-semibold text-lg mb-6">Industrial Partner Pilot Deployments</h4>
+                  <div class="bg-blue-50 p-6 rounded-lg mb-6">
+                    <h5 class="font-medium mb-3">Three 2-Week Deployments</h5>
+                    <p class="text-sm text-secondary mb-4">
+                      Petrochemical and manufacturing partners providing real-world operational feedback and validation.
+                    </p>
+                    <div class="space-y-2 text-xs">
+                      <div class="flex items-center text-green-600">
+                        <i class="fas fa-check-circle mr-2"></i>
+                        <span>Rapid deployment (fits standard pickup truck)</span>
+                      </div>
+                      <div class="flex items-center text-green-600">
+                        <i class="fas fa-check-circle mr-2"></i>
+                        <span>Intuitive operation (8-hour training proficiency)</span>
+                      </div>
+                      <div class="flex items-center text-green-600">
+                        <i class="fas fa-check-circle mr-2"></i>
+                        <span>Confidence-inspiring robustness</span>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="bg-indigo-50 p-6 rounded-lg">
+                    <h5 class="font-medium mb-3">Enhancement Requests</h5>
+                    <div class="space-y-2 text-sm">
+                      <div class="flex items-center">
+                        <i class="fas fa-plus-circle mr-2 text-indigo-600"></i>
+                        <span>Regulatory compliance documentation</span>
+                      </div>
+                      <div class="flex items-center">
+                        <i class="fas fa-plus-circle mr-2 text-indigo-600"></i>
+                        <span>Site safety system integration</span>
+                      </div>
+                      <div class="flex items-center">
+                        <i class="fas fa-plus-circle mr-2 text-indigo-600"></i>
+                        <span>Expanded suppressant payload options</span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="section-divider"></div>
+      </section>
+
+      <!-- Development Roadmap -->
+      <section id="roadmap" class="max-w-7xl mx-auto px-6 py-16">
+        <div class="mb-12">
+          <h2 class="font-canela text-4xl font-bold text-neutral mb-6">Development Roadmap &amp; Commercialization</h2>
+          <p class="text-xl text-secondary leading-relaxed max-w-4xl">
+            Strategic path from current engineering prototype to full commercial deployment with continuous enhancement and market expansion.
+          </p>
+        </div>
+
+        <!-- Current Prototype Status -->
+        <div class="mb-16">
+          <h3 class="font-canela text-2xl font-bold mb-8 text-neutral">Current Prototype Status</h3>
+
+          <div class="grid lg:grid-cols-4 gap-8 mb-12">
+            <div class="bg-gradient-to-br from-green-50 to-emerald-50 p-6 rounded-lg text-center">
+              <div class="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                <span class="font-bold text-2xl text-green-600">6</span>
+              </div>
+              <h4 class="font-semibold text-lg mb-2">TRL 6</h4>
+              <div class="text-sm text-secondary mb-3">Engineering-qualified system demonstration</div>
+              <div class="bg-green-200 text-green-800 px-3 py-1 rounded-full text-xs font-medium">
+                ACHIEVED
+              </div>
+            </div>
+
+            <div class="bg-gradient-to-br from-blue-50 to-cyan-50 p-6 rounded-lg text-center">
+              <div class="w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                <span class="font-bold text-2xl text-blue-600">7</span>
+              </div>
+              <h4 class="font-semibold text-lg mb-2">TRL 7</h4>
+              <div class="text-sm text-secondary mb-3">System prototype in operational environment</div>
+              <div class="bg-blue-200 text-blue-800 px-3 py-1 rounded-full text-xs font-medium">
+                In Progress
+              </div>
+            </div>
+
+            <div class="bg-gradient-to-br from-amber-50 to-orange-50 p-6 rounded-lg text-center">
+              <div class="w-16 h-16 bg-amber-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                <span class="font-bold text-2xl text-amber-600">8</span>
+              </div>
+              <h4 class="font-semibold text-lg mb-2">TRL 8</h4>
+              <div class="text-sm text-secondary mb-3">Actual system completed and qualified</div>
+              <div class="bg-amber-200 text-amber-800 px-3 py-1 rounded-full text-xs font-medium">
+                Planned Q4 2027
+              </div>
+            </div>
+
+            <div class="bg-gradient-to-br from-slate-50 to-gray-50 p-6 rounded-lg text-center">
+              <div class="w-16 h-16 bg-slate-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                <span class="font-bold text-2xl text-slate-600">9</span>
+              </div>
+              <h4 class="font-semibold text-lg mb-2">TRL 9</h4>
+              <div class="text-sm text-secondary mb-3">Actual system proven in successful operations</div>
+              <div class="bg-slate-200 text-slate-800 px-3 py-1 rounded-full text-xs font-medium">
+                Future 2028+
+              </div>
+            </div>
+          </div>
+
+          <div class="bg-white border border-slate-200 rounded-lg p-8">
+            <h4 class="font-semibold text-lg mb-6">TRL 6 Achievement Summary</h4>
+            <div class="grid md:grid-cols-3 gap-6">
+              <div>
+                <h5 class="font-medium mb-3 text-green-700">Environmental Testing</h5>
+                <ul class="text-sm text-secondary space-y-1">
+                  <li>• Temperature extremes validated</li>
+                  <li>• Humidity resistance confirmed</li>
+                  <li>• Vibration and shock tested</li>
+                  <li>• EMC compliance verified</li>
+                </ul>
+              </div>
+              <div>
+                <h5 class="font-medium mb-3 text-blue-700">Safety Analysis</h5>
+                <ul class="text-sm text-secondary space-y-1">
+                  <li>• Failure modes identified</li>
+                  <li>• Hazard mitigation validated</li>
+                  <li>• Risk acceptance criteria</li>
+                  <li>• Emergency protocols tested</li>
+                </ul>
+              </div>
+              <div>
+                <h5 class="font-medium mb-3 text-purple-700">Manufacturing Feasibility</h5>
+                <ul class="text-sm text-secondary space-y-1">
+                  <li>• Supplier qualification complete</li>
+                  <li>• Cost modeling validated</li>
+                  <li>• Quality systems established</li>
+                  <li>• Assembly processes defined</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Optimization Vectors -->
+        <div class="mb-16">
+          <h3 class="font-canela text-2xl font-bold mb-8 text-neutral">Identified Optimization Vectors</h3>
+
+          <div class="grid lg:grid-cols-3 gap-8">
+            <div class="bg-gradient-to-br from-purple-50 to-pink-50 p-6 rounded-lg">
+              <h4 class="font-semibold text-lg mb-4">Mass Reduction</h4>
+              <div class="text-2xl font-bold text-purple-600 mb-2">15-20%</div>
+              <p class="text-sm text-secondary mb-4">
+                Carbon fiber shell optimization with higher-modulus fiber and thinner layup; silicon-anode battery chemistry integration.
+              </p>
+              <div class="flex items-center text-sm">
+                <i class="fas fa-weight-hanging text-purple-600 mr-2"></i>
+                <span class="text-xs">Current: 200kg → Target: 160-170kg</span>
+              </div>
+            </div>
+
+            <div class="bg-gradient-to-br from-blue-50 to-cyan-50 p-6 rounded-lg">
+              <h4 class="font-semibold text-lg mb-4">Cooling Efficiency</h4>
+              <div class="text-2xl font-bold text-blue-600 mb-2">+25%</div>
+              <p class="text-sm text-secondary mb-4">
+                Enhanced tube surface geometry with improved heat transfer coefficients; variable-speed pump optimization.
+              </p>
+              <div class="flex items-center text-sm">
+                <i class="fas fa-thermometer-half text-blue-600 mr-2"></i>
+                <span class="text-xs">Extended mission duration with same energy</span>
+              </div>
+            </div>
+
+            <div class="bg-gradient-to-br from-green-50 to-emerald-50 p-6 rounded-lg">
+              <h4 class="font-semibold text-lg mb-4">Manufacturing Cost</h4>
+              <div class="text-2xl font-bold text-green-600 mb-2">-40%</div>
+              <p class="text-sm text-secondary mb-4">
+                Design for assembly improvements; supplier consolidation; process automation at 100+ units/year scale.
+              </p>
+              <div class="flex items-center text-sm">
+                <i class="fas fa-industry text-green-600 mr-2"></i>
+                <span class="text-xs">Economies of scale realization</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Phase 2 Enhancements -->
+        <div class="mb-16">
+          <h3 class="font-canela text-2xl font-bold mb-8 text-neutral">Phase 2 Enhancements</h3>
+
+          <div class="grid lg:grid-cols-3 gap-8">
+            <div class="bg-white border border-slate-200 rounded-lg p-6">
+              <div class="flex items-center mb-4">
+                <div class="w-12 h-12 bg-blue-100 rounded-full flex items-center justify-center mr-4">
+                  <i class="fas fa-network-wired text-blue-600"></i>
+                </div>
+                <h4 class="font-semibold text-lg">Swarm Coordination</h4>
+              </div>
+              <p class="text-sm text-secondary mb-4">
+                3-5 unit swarm behaviors for distributed search, collaborative suppression, and relay communication extending effective range.
+              </p>
+              <div class="bg-blue-50 p-3 rounded text-sm">
+                <strong>Simulation indicates 40% response time improvement</strong> for 10,000 m² incidents versus sequential single-robot deployment.
+              </div>
+            </div>
+
+            <div class="bg-white border border-slate-200 rounded-lg p-6">
+              <div class="flex items-center mb-4">
+                <div class="w-12 h-12 bg-orange-100 rounded-full flex items-center justify-center mr-4">
+                  <i class="fas fa-fire text-orange-600"></i>
+                </div>
+                <h4 class="font-semibold text-lg">Predictive Thermal Modeling</h4>
+              </div>
+              <p class="text-sm text-secondary mb-4">
+                Real-time CFD fire spread prediction with 10-30 minute predictive horizon using edge computing hardware running FDS/CFAST models.
+              </p>
+              <div class="bg-orange-50 p-3 rounded text-sm">
+                <strong>Continuous calibration</strong> against observed behavior with human operator involvement in predictive planning.
+              </div>
+            </div>
+
+            <div class="bg-white border border-slate-200 rounded-lg p-6">
+              <div class="flex items-center mb-4">
+                <div class="w-12 h-12 bg-green-100 rounded-full flex items-center justify-center mr-4">
+                  <i class="fas fa-cubes text-green-600"></i>
+                </div>
+                <h4 class="font-semibold text-lg">Modular Payload Adaptation</h4>
+              </div>
+              <p class="text-sm text-secondary mb-4">
+                Multiple suppression modalities including foam proportioning, dry chemical, and CO₂ clean agent systems with 15-minute module interchange.
+              </p>
+              <div class="bg-green-50 p-3 rounded text-sm">
+                <strong>Automatic system reconfiguration</strong> on module detection with fire class-optimized suppressant selection.
+              </div>
+            </div>
+          </div>
+
+          <div class="mt-8 bg-slate-50 p-8 rounded-lg">
+            <h4 class="font-semibold text-lg mb-6">Modular Payload Specifications</h4>
+            <div class="grid md:grid-cols-3 gap-6">
+              <div class="bg-white p-4 rounded">
+                <h5 class="font-medium mb-2 text-blue-700">Foam Proportioning</h5>
+                <div class="space-y-1 text-xs">
+                  <div class="flex justify-between">
+                    <span>Capacity:</span>
+                    <span class="font-medium">1.5L → 1500L solution</span>
+                  </div>
+                  <div class="flex justify-between">
+                    <span>Integration:</span>
+                    <span class="font-medium">3% AFFF proportioning</span>
+                  </div>
+                  <div class="flex justify-between">
+                    <span>Application:</span>
+                    <span class="font-medium">Class B fires</span>
+                  </div>
+                </div>
+              </div>
+              <div class="bg-white p-4 rounded">
+                <h5 class="font-medium mb-2 text-amber-700">Dry Chemical</h5>
+                <div class="space-y-1 text-xs">
+                  <div class="flex justify-between">
+                    <span>Capacity:</span>
+                    <span class="font-medium">50 kg ABC powder</span>
+                  </div>
+                  <div class="flex justify-between">
+                    <span>System:</span>
+                    <span class="font-medium">Pressurized pneumatic</span>
+                  </div>
+                  <div class="flex justify-between">
+                    <span>Application:</span>
+                    <span class="font-medium">Class B/C fires</span>
+                  </div>
+                </div>
+              </div>
+              <div class="bg-white p-4 rounded">
+                <h5 class="font-medium mb-2 text-green-700">CO₂ Clean Agent</h5>
+                <div class="space-y-1 text-xs">
+                  <div class="flex justify-between">
+                    <span>Capacity:</span>
+                    <span class="font-medium">30 kg liquid</span>
+                  </div>
+                  <div class="flex justify-between">
+                    <span>Discharge:</span>
+                    <span class="font-medium">High-pressure, no residue</span>
+                  </div>
+                  <div class="flex justify-between">
+                    <span>Application:</span>
+                    <span class="font-medium">Sensitive equipment</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Manufacturing and Partnership Strategy -->
+        <div class="mb-16">
+          <h3 class="font-canela text-2xl font-bold mb-8 text-neutral">Manufacturing and Partnership Strategy</h3>
+
+          <div class="grid lg:grid-cols-2 gap-12">
+            <div>
+              <h4 class="font-semibold text-lg mb-6">Supply Chain Qualification</h4>
+              <div class="space-y-4">
+                <div class="bg-blue-50 p-4 rounded-lg">
+                  <h5 class="font-medium mb-2">Dual-Sourcing Strategy</h5>
+                  <p class="text-sm text-secondary">
+                    Critical components (seals, motors, batteries) qualified with multiple suppliers ensuring supply chain resilience and competitive pricing.
+                  </p>
+                </div>
+
+                <div class="bg-green-50 p-4 rounded-lg">
+                  <h5 class="font-medium mb-2">Domestic Sourcing Preference</h5>
+                  <p class="text-sm text-secondary">
+                    Final assembly supporting rapid delivery with aerospace industry suppliers leveraged for precision components with established quality systems.
+                  </p>
+                </div>
+
+                <div class="bg-purple-50 p-4 rounded-lg">
+                  <h5 class="font-medium mb-2">Quality Systems Integration</h5>
+                  <p class="text-sm text-secondary">
+                    ISO 9001 quality management system implementation with full traceability and statistical process control for critical manufacturing operations.
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            <div>
+              <h4 class="font-semibold text-lg mb-6">Market Entry Strategy</h4>
+              <div class="space-y-6">
+                <div class="bg-white border border-blue-200 rounded-lg p-4">
+                  <h5 class="font-medium text-blue-700 mb-2">Industrial Facilities</h5>
+                  <div class="text-sm text-secondary mb-2">
+                    Direct sales and distributor partnerships for petrochemical and manufacturing sectors.
+                  </div>
+                  <div class="text-xs text-blue-600 font-medium">
+                    Target: 15-20% of $500M advanced robotics market by 2030
+                  </div>
+                </div>
+
+                <div class="bg-white border border-green-200 rounded-lg p-4">
+                  <h5 class="font-medium text-green-700 mb-2">Municipal Fire Services</h5>
+                  <div class="text-sm text-secondary mb-2">
+                    Pilot programs, training integration, and interoperability demonstration with grant funding support.
+                  </div>
+                  <div class="text-xs text-green-600 font-medium">
+                    Early adoption focus and reference accounts
+                  </div>
+                </div>
+
+                <div class="bg-white border border-purple-200 rounded-lg p-4">
+                  <h5 class="font-medium text-purple-700 mb-2">Nuclear/Critical Infrastructure</h5>
+                  <div class="text-sm text-secondary mb-2">
+                    Regulatory engagement, qualification programs, and long-term service contracts.
+                  </div>
+                  <div class="text-xs text-purple-600 font-medium">
+                    Value-based pricing and total cost of ownership model
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="section-divider"></div>
+      </section>
+
+      <!-- Technical Specifications -->
+      <section id="specs" class="max-w-7xl mx-auto px-6 py-16">
+        <div class="mb-12">
+          <h2 class="font-canela text-4xl font-bold text-neutral mb-6">Technical Specifications Summary</h2>
+          <p class="text-xl text-secondary leading-relaxed max-w-4xl">
+            Comprehensive engineering specifications encompassing physical parameters, power systems, operational metrics, and performance characteristics.
+          </p>
+        </div>
+
+        <!-- Physical Parameters -->
+        <div class="mb-16">
+          <h3 class="font-canela text-2xl font-bold mb-8 text-neutral">Physical Parameters</h3>
+
+          <div class="grid lg:grid-cols-2 gap-12">
+            <div>
+              <h4 class="font-semibold text-lg mb-6">Dimensions and Mass Distribution</h4>
+              <div class="space-y-4">
+                <div class="bg-slate-50 p-4 rounded-lg">
+                  <h5 class="font-medium mb-3">Overall Dimensions</h5>
+                  <div class="grid grid-cols-2 gap-4 text-sm">
+                    <div>
+                      <div class="flex justify-between mb-2">
+                        <span>Length:</span>
+                        <span class="font-medium">800-850 mm</span>
+                      </div>
+                      <div class="flex justify-between mb-2">
+                        <span>Width:</span>
+                        <span class="font-medium">600-620 mm</span>
+                      </div>
+                      <div class="flex justify-between">
+                        <span>Height (ground):</span>
+                        <span class="font-medium">340-450 mm</span>
+                      </div>
+                    </div>
+                    <div>
+                      <div class="flex justify-between mb-2">
+                        <span>Height (ceiling):</span>
+                        <span class="font-medium">520-560 mm</span>
+                      </div>
+                      <div class="flex justify-between mb-2">
+                        <span>Wheelbase:</span>
+                        <span class="font-medium">500 × 400 mm</span>
+                      </div>
+                      <div class="flex justify-between">
+                        <span>Ground clearance:</span>
+                        <span class="font-medium">100-200 mm</span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="bg-gray-50 p-4 rounded-lg">
+                  <h5 class="font-medium mb-3">Mass Distribution</h5>
+                  <div class="space-y-2 text-sm">
+                    <div class="flex justify-between">
+                      <span>Dry mass:</span>
+                      <span class="font-medium">60-85 kg</span>
+                    </div>
+                    <div class="flex justify-between">
+                      <span>Operational mass:</span>
+                      <span class="font-medium">140-185 kg</span>
+                    </div>
+                    <div class="flex justify-between">
+                      <span>Maximum mass:</span>
+                      <span class="font-medium">200-285 kg</span>
+                    </div>
+                  </div>
+                  <div class="text-xs text-secondary mt-2">
+                    Center of mass optimized for 45° body roll stability in any direction
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div>
+              <img src="https://kimi-web-img.moonshot.cn/img/product-help.schneider-electric.com/0a70a1c49cc5d9fcc9165cbad25ee0cbbb2c39d2.gif" alt="Technical drawing of a firefighting robot with dimensions" class="w-full h-64 object-cover rounded-lg mb-6" size="medium" aspect="wide" style="linedrawing" query="firefighting robot technical drawing dimensions" referrerpolicy="no-referrer" data-modified="1" data-score="0.00"/>
+
+              <div class="bg-blue-50 p-4 rounded-lg">
+                <h5 class="font-medium mb-2 text-blue-700">Compact Design Advantage</h5>
+                <p class="text-sm text-secondary">
+                  Optimized dimensions enabling penetration of confined spaces below 60 centimeters while maintaining full operational capability and thermal protection performance.
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Power and Energy Systems -->
+        <div class="mb-16">
+          <h3 class="font-canela text-2xl font-bold mb-8 text-neutral">Power and Energy Systems</h3>
+
+          <div class="grid lg:grid-cols-2 gap-12">
+            <div>
+              <h4 class="font-semibold text-lg mb-6">Energy Storage and Distribution</h4>
+              <div class="space-y-4">
+                <div class="bg-green-50 p-4 rounded-lg">
+                  <h5 class="font-medium mb-3 text-green-700">Primary Battery System</h5>
+                  <div class="space-y-2 text-sm">
+                    <div class="flex justify-between">
+                      <span>Chemistry:</span>
+                      <span class="font-medium">Lithium-ion NMC/LFP</span>
+                    </div>
+                    <div class="flex justify-between">
+                      <span>Usable capacity:</span>
+                      <span class="font-medium">4.3-14.4 kWh</span>
+                    </div>
+                    <div class="flex justify-between">
+                      <span>Nominal voltage:</span>
+                      <span class="font-medium">48-96 V</span>
+                    </div>
+                    <div class="flex justify-between">
+                      <span>Peak discharge:</span>
+                      <span class="font-medium">10-20 kW</span>
+                    </div>
+                  </div>
+                  <div class="text-xs text-green-600 font-medium mt-2">
+                    Recharge time: 2-4 hours from 0-100%
+                  </div>
+                </div>
+
+                <div class="bg-blue-50 p-4 rounded-lg">
+                  <h5 class="font-medium mb-3 text-blue-700">Power Distribution</h5>
+                  <div class="space-y-2 text-sm">
+                    <div class="flex justify-between">
+                      <span>Drive motors (×8):</span>
+                      <span class="font-medium">1.2 kW peak, 400W cont. each</span>
+                    </div>
+                    <div class="flex justify-between">
+                      <span>Cooling pump:</span>
+                      <span class="font-medium">0.8 kW max (0.3-0.5 kW typical)</span>
+                    </div>
+                    <div class="flex justify-between">
+                      <span>Computing/sensors:</span>
+                      <span class="font-medium">0.15 kW continuous</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div>
+              <h4 class="font-semibold text-lg mb-6">Energy Consumption Profile</h4>
+              <div class="space-y-4">
+                <div class="bg-orange-50 p-4 rounded-lg">
+                  <h5 class="font-medium mb-3 text-orange-700">Typical Mission Profile</h5>
+                  <div class="space-y-2 text-sm">
+                    <div class="flex justify-between">
+                      <span>Mobility systems:</span>
+                      <span class="font-medium">800W average</span>
+                    </div>
+                    <div class="flex justify-between">
+                      <span>Cooling system:</span>
+                      <span class="font-medium">400W average</span>
+                    </div>
+                    <div class="flex justify-between">
+                      <span>Total typical power:</span>
+                      <span class="font-medium">2.8 kW</span>
+                    </div>
+                  </div>
+                  <div class="text-xs text-orange-600 font-medium mt-2">
+                    Duration: 4-6 hours mixed mission profile
+                  </div>
+                </div>
+
+                <div class="bg-red-50 p-4 rounded-lg">
+                  <h5 class="font-medium mb-3 text-red-700">Maximum Intensity Operation</h5>
+                  <div class="space-y-2 text-sm">
+                    <div class="flex justify-between">
+                      <span>Total maximum power:</span>
+                      <span class="font-medium">11.5-15 kW</span>
+                    </div>
+                    <div class="flex justify-between">
+                      <span>Suppression active:</span>
+                      <span class="font-medium">2.0 kW additional</span>
+                    </div>
+                    <div class="flex justify-between">
+                      <span>Duration at max intensity:</span>
+                      <span class="font-medium">2.5-4.2 hours</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Operational Metrics -->
+        <div class="mb-16">
+          <h3 class="font-canela text-2xl font-bold mb-8 text-neutral">Operational Metrics</h3>
+
+          <div class="grid lg:grid-cols-2 gap-12">
+            <div>
+              <h4 class="font-semibold text-lg mb-6">Mobility Performance</h4>
+              <div class="space-y-4">
+                <div class="bg-blue-50 p-4 rounded-lg">
+                  <h5 class="font-medium mb-3 text-blue-700">Speed Capabilities</h5>
+                  <div class="grid grid-cols-2 gap-4 text-sm">
+                    <div>
+                      <div class="flex justify-between mb-2">
+                        <span>Max ground speed:</span>
+                        <span class="font-medium">15 km/h</span>
+                      </div>
+                      <div class="flex justify-between mb-2">
+                        <span>Typical operational:</span>
+                        <span class="font-medium">8 km/h</span>
+                      </div>
+                      <div class="flex justify-between">
+                        <span>Ceiling traversal:</span>
+                        <span class="font-medium">2-7 km/h</span>
+                      </div>
+                    </div>
+                    <div>
+                      <div class="flex justify-between mb-2">
+                        <span>Slope climbing:</span>
+                        <span class="font-medium">30-35°</span>
+                      </div>
+                      <div class="flex justify-between mb-2">
+                        <span>Side slope stability:</span>
+                        <span class="font-medium">45°</span>
+                      </div>
+                      <div class="flex justify-between">
+                        <span>Turning radius:</span>
+                        <span class="font-medium">0 m (in-place)</span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="bg-green-50 p-4 rounded-lg">
+                  <h5 class="font-medium mb-3 text-green-700">Obstacle Negotiation</h5>
+                  <div class="space-y-2 text-sm">
+                    <div class="flex justify-between">
+                      <span>Vertical step (single):</span>
+                      <span class="font-medium">300 mm</span>
+                    </div>
+                    <div class="flex justify-between">
+                      <span>Vertical step (gait):</span>
+                      <span class="font-medium">500+ mm</span>
+                    </div>
+                    <div class="flex justify-between">
+                      <span>Wall climbing:</span>
+                      <span class="font-medium">0.3 m/s ascent</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div>
+              <h4 class="font-semibold text-lg mb-6">Suppression System</h4>
+              <div class="space-y-4">
+                <div class="bg-orange-50 p-4 rounded-lg">
+                  <h5 class="font-medium mb-3 text-orange-700">Water System</h5>
+                  <div class="space-y-2 text-sm">
+                    <div class="flex justify-between">
+                      <span>Reservoir capacity:</span>
+                      <span class="font-medium">45-200 L</span>
+                    </div>
+                    <div class="flex justify-between">
+                      <span>Flow rate:</span>
+                      <span class="font-medium">30-100 L/min</span>
+                    </div>
+                    <div class="flex justify-between">
+                      <span>Throw range:</span>
+                      <span class="font-medium">15-30 m</span>
+                    </div>
+                  </div>
+                  <div class="text-xs text-orange-600 font-medium mt-2">
+                    Continuous suppression: 6.7-90 seconds at max flow
+                  </div>
+                </div>
+
+                <div class="bg-purple-50 p-4 rounded-lg">
+                  <h5 class="font-medium mb-3 text-purple-700">Refill Logistics</h5>
+                  <div class="space-y-2 text-sm">
+                    <div class="flex justify-between">
+                      <span>Refill connection:</span>
+                      <span class="font-medium">65 mm Storz (standard)</span>
+                    </div>
+                    <div class="flex justify-between">
+                      <span>Refill time:</span>
+                      <span class="font-medium">2-5 minutes</span>
+                    </div>
+                    <div class="flex justify-between">
+                      <span>Water pod swap:</span>
+                      <span class="font-medium">2 minutes</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Key Performance Metrics -->
+        <div class="mb-16">
+          <h3 class="font-canela text-2xl font-bold mb-8 text-neutral">Key Performance Metrics</h3>
+
+          <div class="grid lg:grid-cols-4 gap-6">
+            <div class="bg-gradient-to-br from-red-500 to-orange-500 text-white p-6 rounded-lg text-center">
+              <div class="text-3xl font-bold mb-2">800°C</div>
+              <div class="text-sm opacity-90">Maximum External Operation</div>
+              <div class="text-xs mt-2 opacity-75">4+ hours continuous exposure</div>
+            </div>
+
+            <div class="bg-gradient-to-br from-blue-500 to-cyan-500 text-white p-6 rounded-lg text-center">
+              <div class="text-3xl font-bold mb-2">
+                &lt;60°C&lt; /div&gt;
+                  <div class="text-sm opacity-90">Internal Temperature</div>
+                  <div class="text-xs mt-2 opacity-75">During 800°C external exposure</div>
+              </div>
+
+              <div class="bg-gradient-to-br from-green-500 to-emerald-500 text-white p-6 rounded-lg text-center">
+                <div class="text-3xl font-bold mb-2">4+ hours</div>
+                <div class="text-sm opacity-90">Continuous Operation</div>
+                <div class="text-xs mt-2 opacity-75">With active cooling system</div>
+              </div>
+
+              <div class="bg-gradient-to-br from-purple-500 to-pink-500 text-white p-6 rounded-lg text-center">
+                <div class="text-3xl font-bold mb-2">500mm+</div>
+                <div class="text-sm opacity-90">Vertical Obstacle Clearance</div>
+                <div class="text-xs mt-2 opacity-75">Wheel-walking gait sequence</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="section-divider"></div>
+      </div></section>
+
+      <!-- Footer Note -->
+      <footer class="max-w-7xl mx-auto px-6 py-8 border-t border-slate-200">
+        <div class="bg-amber-50 border border-amber-200 rounded-lg p-6">
+          <div class="flex items-start">
+            <i class="fas fa-exclamation-triangle text-amber-600 mr-3 mt-1"></i>
+            <div>
+              <h4 class="font-semibold text-amber-800 mb-2">Design Verification Note</h4>
+              <p class="text-sm text-secondary mb-2">
+                The <strong>&#34;4 wheels on top and 4 wheels on bottom&#34; configuration</strong> represents a specified design requirement for the PyroGuard X-8 prototype. This octo-wheel architecture with orientation-independent operation is not verified in available commercial firefighting robot documentation, which predominantly features 4WD, 6×6, or tracked configurations <a href="https://www.topskyeqpt.com/fire-fighting-robot/" class="citation-link">[166]</a>
+                <a href="https://www.shark-robotics.com/colossus-firefighting-robot/" class="citation-link">[167]</a>
+                <a href="https://safetyproductfinder.com/product/jupiter-fire-fighting-robot/" class="citation-link">[168]</a>
+                <a href="https://www.topskyeqpt.com/fire-fighting-robot/" class="citation-link">[186]</a>.
+              </p>
+              <p class="text-sm text-secondary">
+                The capabilities described for this configuration—including ceiling traversal, vertical wall climbing, and 500mm+ obstacle clearance—are engineered projections based on mechanical analysis and component specifications rather than validated operational experience. Thermal protection, cooling system, and autonomy stack descriptions are similarly derived from engineering analysis and analogous systems pending comprehensive field validation.
+              </p>
+            </div>
+          </div>
+        </div>
+      </footer>
+    </main>
+
+    <script>
+        // Mobile TOC Toggle
+        document.getElementById('tocToggle').addEventListener('click', function() {
+            const toc = document.getElementById('toc');
+            toc.classList.toggle('mobile-open');
+        });
+
+        // Close TOC when clicking outside
+        document.addEventListener('click', function(e) {
+            const toc = document.getElementById('toc');
+            const toggle = document.getElementById('tocToggle');
+            
+            if (!toc.contains(e.target) && !toggle.contains(e.target)) {
+                toc.classList.remove('mobile-open');
+            }
+        });
+
+        // Handle window resize
+        function handleResize() {
+            const toc = document.getElementById('toc');
+            if (window.innerWidth > 1024) {
+                toc.classList.remove('mobile-open');
+            }
+        }
+
+        // Initial call to set correct state
+        handleResize();
+
+        // Add resize listener
+        window.addEventListener('resize', handleResize);
+
+        // Smooth scrolling for TOC links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                    // Close mobile TOC
+                    document.getElementById('toc').classList.remove('mobile-open');
+                }
+            });
+        });
+
+        // Citation link hover effects
+        document.querySelectorAll('.citation-link').forEach(link => {
+            link.addEventListener('click', function(e) {
+                e.preventDefault();
+                // In a real implementation, this would open the citation source
+                const citation = this.getAttribute('href');
+                console.log('Opening citation:', citation);
+            });
+        });
+    </script>
+  
+
+</body></html>
